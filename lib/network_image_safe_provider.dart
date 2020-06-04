@@ -9,8 +9,7 @@ abstract class NetworkImageSafeProvider
   ///
   /// The arguments [url] and [scale] must not be null.
   const factory NetworkImageSafeProvider(
-    String url, 
-    {
+    String url, {
     String placeholder,
     double scale,
     Map<String, String> headers,

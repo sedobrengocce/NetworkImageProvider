@@ -10,20 +10,23 @@ import 'package:flutter/widgets.dart';
 
 import 'network_image_safe_provider.dart' as image_provider;
 
-class NetworkImageSafeProvider 
-    extends ImageProvider<image_provider.NetworkImageSafeProvider> 
-        implements image_provider.NetworkImageSafeProvider{
-
-  const NetworkImageSafeProvider(this.url,{
+class NetworkImageSafeProvider
+    extends ImageProvider<image_provider.NetworkImageSafeProvider>
+    implements image_provider.NetworkImageSafeProvider {
+  const NetworkImageSafeProvider(
+    this.url, {
     this.placeholder,
     this.scale = 1.0,
     this.headers,
-  }): assert (url != null), assert(placeholder != null), assert(scale != null);
+  })  : assert(url != null),
+        assert(placeholder != null),
+        assert(scale != null);
 
   @override
-  ImageStreamCompleter load(image_provider.NetworkImageSafeProvider key, DecoderCallback decode){
-    
-    final StreamController<ImageChunkEvent> chunkEvents = StreamController<ImageChunkEvent>();
+  ImageStreamCompleter load(
+      image_provider.NetworkImageSafeProvider key, DecoderCallback decode) {
+    final StreamController<ImageChunkEvent> chunkEvents =
+        StreamController<ImageChunkEvent>();
 
     return MultiFrameImageStreamCompleter(
       codec: _loadAsync(key, chunkEvents, decode),
@@ -32,7 +35,8 @@ class NetworkImageSafeProvider
       informationCollector: () {
         return <DiagnosticsNode>[
           DiagnosticsProperty<ImageProvider>('Image provider', this),
-          DiagnosticsProperty<image_provider.NetworkImageSafeProvider>('Image key', key),
+          DiagnosticsProperty<image_provider.NetworkImageSafeProvider>(
+              'Image key', key),
         ];
       },
     );
@@ -40,7 +44,7 @@ class NetworkImageSafeProvider
 
   @override
   Future<NetworkImageSafeProvider> obtainKey(ImageConfiguration configuration) {
-     return SynchronousFuture<NetworkImageSafeProvider>(this);
+    return SynchronousFuture<NetworkImageSafeProvider>(this);
   }
 
   @override
@@ -54,8 +58,9 @@ class NetworkImageSafeProvider
 
   @override
   final Map<String, String> headers;
-  
-  static final HttpClient _sharedHttpClient = HttpClient()..autoUncompress = false;
+
+  static final HttpClient _sharedHttpClient = HttpClient()
+    ..autoUncompress = false;
 
   static HttpClient get _httpClient {
     HttpClient client = _sharedHttpClient;
@@ -72,7 +77,7 @@ class NetworkImageSafeProvider
     StreamController<ImageChunkEvent> chunkEvents,
     DecoderCallback decode,
   ) async {
-    try{
+    try {
       ByteData data;
       Uint8List bytes;
       assert(key == this);
@@ -105,26 +110,29 @@ class NetworkImageSafeProvider
   }
 
   Future<ByteData> _loadPlaceholder() async {
-    final Uint8List encoded = utf8.encoder.convert(Uri(path: Uri.encodeFull(placeholder)).path);
-    final ByteData asset =
-        await ServicesBinding.instance.defaultBinaryMessenger.send('flutter/assets', encoded.buffer.asByteData()); // ignore: deprecated_member_use_from_same_package
-    if (asset == null)
-      throw FlutterError('Unable to load asset: $placeholder');
+    final Uint8List encoded =
+        utf8.encoder.convert(Uri(path: Uri.encodeFull(placeholder)).path);
+    final ByteData asset = await ServicesBinding.instance.defaultBinaryMessenger
+        .send(
+            'flutter/assets',
+            encoded.buffer
+                .asByteData()); // ignore: deprecated_member_use_from_same_package
+    if (asset == null) throw FlutterError('Unable to load asset: $placeholder');
     return asset;
   }
 
   @override
   bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType)
-      return false;
-    return other is NetworkImageSafeProvider
-        && other.url == url
-        && other.placeholder == placeholder;
+    if (other.runtimeType != runtimeType) return false;
+    return other is NetworkImageSafeProvider &&
+        other.url == url &&
+        other.placeholder == placeholder;
   }
 
   @override
   int get hashCode => ui.hashValues(url, placeholder);
 
   @override
-  String toString() => '${objectRuntimeType(this, 'NetworkImageSafeProvider')}("$url", placeholder: $placeholder)';
+  String toString() =>
+      '${objectRuntimeType(this, 'NetworkImageSafeProvider')}("$url", placeholder: $placeholder)';
 }
