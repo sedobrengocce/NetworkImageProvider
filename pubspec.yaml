@@ -1,7 +1,6 @@
 name: network_image_safe_provider
 description: A NetworkImageProvider with placeholder.
 version: 1.0.0
-author: Giuseppe Tufo <Giuseppe.tufo@micropp.net>
 homepage: https://micropp.net
 
 environment:
