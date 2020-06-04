@@ -1,0 +1,20 @@
+name: network_image_safe_provider
+description: A NetworkImageProvider with placeholder.
+version: 1.0.0
+author: Giuseppe Tufo <Giuseppe.tufo@micropp.net>
+homepage: https://micropp.net
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+
