@@ -1,5 +1,5 @@
 name: network_image_safe_provider
-description: A NetworkImageProvider with placeholder.
+description: A Flutter library to handle NetworkImageProvider http. A placeholder will be displayed if there is a network error.
 version: 1.0.0
 homepage: https://micropp.net
 
