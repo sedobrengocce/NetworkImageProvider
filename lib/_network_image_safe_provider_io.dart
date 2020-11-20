@@ -77,8 +77,8 @@ class NetworkImageSafeProvider
     StreamController<ImageChunkEvent> chunkEvents,
     DecoderCallback decode,
   ) async {
+    ByteData data;
     try {
-      ByteData data;
       Uint8List bytes;
       assert(key == this);
 
@@ -104,7 +104,10 @@ class NetworkImageSafeProvider
           throw Exception('NetworkImage is an empty file: $resolved');
       }
       return decode(bytes ?? data.buffer.asUint8List());
-    } finally {
+    } catch(e) {
+      data = await _loadPlaceholder();
+      return decode(data.buffer.asUint8List());
+    }finally {
       await chunkEvents.close();
     }
   }
